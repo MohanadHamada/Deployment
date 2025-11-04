@@ -17,18 +17,18 @@ spec:
         image: us-central1-docker.pkg.dev/neon-trilogy-476216-j8/lab4-registry-task/hello:v1
         ports:
         - containerPort: 8888
-        env:
-        - name: ENVIRONMENT
-          value: "DEV"
-        - name: HOST
-          value: "0.0.0.0"
-        - name: PORT
-          value: "8888"
-        - name: REDIS_HOST
-          value: "localhost"
-        - name: REDIS_PORT
-          value: "6379"
-        - name: REDIS_DB
-          value: "0"
       imagePullSecrets:
       - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: hello
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8888
